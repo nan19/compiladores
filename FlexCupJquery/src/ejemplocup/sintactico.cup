@@ -1,0 +1,90 @@
+/* ---------------Seccion de declaraciones preliminares--------------------*/
+package ejemplocup;
+
+import java_cup.runtime.*;
+import java.io.*;
+
+/* Codigo del parser, Definicmos quien es nuestro AL*/
+parser code {:
+static TablaSimbolos tabla = new TablaSimbolos();
+public static void main(String[] args){
+            try {
+            AnalizadorSintactico asin = new AnalizadorSintactico(
+                    new AnalizadorLexico(new FileReader(args[0]), tabla));
+                     asin.parse();
+                   // tabla.imprimir();
+                    } catch (Exception ex) {
+                        ex.printStackTrace();
+                    }
+}
+:}
+
+//inicializamos el objeto crear, ponemos aca ya que el action code son todas las definiciones globales que
+// creamos en nuestro sintáctico del java
+action code {:
+Creararch crear=new Creararch();
+:}
+
+/*Simbolos terminales y no terminales */
+terminal FORM, LIST, DOSPUNTOS, LA, LC, COMA;
+terminal TEXTFIELD, COMBO;
+terminal Simbolo ID;
+//terminal Integer NUMERO;
+
+non terminal sentencia, formulario, lista, campo, campos, tipo;
+//non terminal Integer expr, asig;
+
+//declaraciones de precedencia
+//precedence left MAS, MENOS;
+//precedence left POR, ENTRE;
+//precedence left UMENOS;
+
+
+//especificaciones de la gramatica
+start with sentencia;
+
+sentencia ::= formulario:v {:
+    System.err.println(" resultado:\n "+v);
+    Resultado result=new Resultado();
+    String r=((String) v);
+    result.setCodigo(r); //
+    crear.creararchivo(result);
+   // System.out.println("holasdfljalsdkfjs" + result.getCodigo());
+:} | lista;
+
+//*********************************************************************
+formulario ::= FORM DOSPUNTOS ID:i LA campos:c LC {:
+    RESULT = "<%@page contentType='text/html' pageEncoding='UTF-8'%> \n        <!DOCTYPE html>\n        <html>\n        <head>\n        <meta http-equiv='Content-Type' content='text/html; charset=UTF-8'>\n        <title>Enfermedades</title>\n        <meta name='viewport' content='width=device-width, initial-scale=1'>\n        <link rel='stylesheet' href='http://code.jquery.com/mobile/1.1.0/jquery.mobile-1.1.0.min.css' />\n        <script type='text/javascript' src='http://code.jquery.com/jquery-1.7.1.min.js'></script>\n        <script type='text/javascript' src='http://code.jquery.com/mobile/1.1.0/jquery.mobile-1.1.0.min.js'></script>\n       <div>\n<form name='"+i.nombre+"'>\n"+c+"\n</form></div>\n"; 
+        
+:};
+
+campos ::= campos:cs COMA campo:c 
+ {:
+    RESULT = cs +"\n"+c ;
+:}
+| campo:c {:
+    RESULT = c; 
+:};
+
+campo ::= tipo:t DOSPUNTOS ID:i {:
+    RESULT = "<"+ t +" name='"+i.nombre+"' id='"+i.nombre+"'  />";
+:};
+
+tipo ::= TEXTFIELD  {:
+    RESULT = "input type='text'  ";
+:} | COMBO
+
+ {:
+    RESULT = "select ";
+:}
+;
+
+//*********************************************************************
+
+lista ::= LIST;  
+
+//*********************************************************************
+//<input type="text" name="clase" id="clase">
+
+
+

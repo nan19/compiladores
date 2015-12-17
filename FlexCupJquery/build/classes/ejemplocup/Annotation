@@ -1,0 +1,33 @@
+se copian los archivos 
+ Annotation
+ entrada.txt
+ lexico.jflex
+ sintactico.cup
+ Simbolo.java
+ tablaSimbolo.java
+ FlexCupJquery.java
+*****************************************************************
+los archivos que se generan o actualizan son 
+ AnalizadorLexico.java
+ AnalizadorSintactico.java 
+ sym.java
+*****************************************************************
+para ACTUALIZAR o generar los archivos AnalizadorLexico.java, AnalizadorSintactico.java y sym.java cuando
+se modifican los archivos sintactico.cup y lexico.jflex :
+ clic derecho sobre el proyecto>Run>Main Class>browse...>ejemplocup.FlexcupJquery
+ en Arguments escribir entrada.txt
+ y en Working directory poner la direccion donde esta el paquete del proyecto "ejemplocup"
+ ok
+ se ejecuta el archivo FlexCupJquery.java
+Gualá Habemus Compiler!!
+*****************************************************************
+para EJECUTAR el proyecto , es decir, ver el codigo generado en el output
+ clic derecho sobre el proyecto>Run>MainClass>browse...>ejemplocup.AnalizadorSintactico
+ se ejecuta el proyecto entero
+Gualá Genero codigo en el output
+*****************************************************************
+para el tema de REPOSITORIO LOCAL
+en la barra de netbeans>Team>git>ok
+ver cambios,, clic derecho sobre proyecto show changes
+
+
